@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI | Gemini-Powered Threat Analysis & Cybersecurity Awareness</title>
+  <link rel="icon" type="image/svg+xml" href="/static/images/logo.svg">
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="cyber-theme">
+  <!-- Cyber Background Atmospheric Mesh -->
+  <div class="mesh-bg">
+    <div class="ambient-glow cyan"></div>
+    <div class="ambient-glow blue"></div>
+    <div class="ambient-glow purple"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="cyber-header">
+    <div class="container nav-content">
+      <div class="brand">
+        <img src="/static/images/logo.svg" alt="CyberShield AI Logo" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-title">CYBERSHIELD <span class="neon-text">AI</span></span>
+          <span class="brand-subtitle">Gemini Threat Intelligence & Tutor</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" data-tab="tab-analyzer">
+          <i class="fa-solid fa-shield-halved"></i> Threat Analyzer
+        </button>
+        <button class="nav-btn" data-tab="tab-tutor">
+          <i class="fa-solid fa-graduation-cap"></i> Cyber Tutor
+        </button>
+        <button class="nav-btn" data-tab="tab-quiz">
+          <i class="fa-solid fa-brain"></i> Learn Mode Quiz
+        </button>
+        <button class="nav-btn" data-tab="tab-privacy">
+          <i class="fa-solid fa-user-shield"></i> Privacy & Arch
+        </button>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Switcher Pill -->
+        <div class="lang-switcher" id="langToggleContainer" title="Switch Explanation Language">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="hi">Hinglish 🇮🇳</button>
+        </div>
+
+        <!-- Engine Status Pill -->
+        <div class="engine-badge" id="engineStatusBadge" title="Engine Status">
+          <span class="status-pulse"></span>
+          <span id="engineStatusLabel">Gemini AI Active</span>
+        </div>
+
+        <!-- Settings Modal Trigger -->
+        <button class="icon-btn" id="openSettingsBtn" title="API Settings">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="container main-layout">
+    
+    <!-- Tab 1: Threat Analyzer (Primary Interactive Dashboard) -->
+    <section id="tab-analyzer" class="tab-pane active">
+      
+      <!-- Hero Headline -->
+      <div class="hero-section">
+        <div class="hero-badge">
+          <i class="fa-solid fa-bolt"></i> Google Gemini 2.5 Flash + Local Security Heuristics
+        </div>
+        <h1 class="hero-title">
+          Decode Deception. <span class="gradient-text">Understand the Threat.</span>
+        </h1>
+        <p class="hero-desc">
+          Paste any suspicious email, SMS, lookalike URL, or security log. CyberShield AI breaks down attack psychological tricks, highlights danger zones, and explains warning signs in simple English &amp; Hinglish.
+        </p>
+      </div>
+
+      <!-- Quick Test Sample Bar -->
+      <div class="sample-bar-card glass-panel">
+        <div class="sample-bar-header">
+          <span class="sample-title"><i class="fa-solid fa-vial-circle-check"></i> Test Instant Threat Samples:</span>
+          <span class="sample-subtitle">Click any sample to auto-load and analyze</span>
+        </div>
+        <div class="sample-pills" id="samplePillsList">
+          <!-- Populated dynamically via JS -->
+          <div class="pill-skeleton">Loading sample cases...</div>
+        </div>
+      </div>
+
+      <!-- Threat Input Console -->
+      <div class="console-card glass-panel">
+        <div class="console-tabs">
+          <button class="c-tab-btn active" data-input-mode="text">
+            <i class="fa-regular fa-file-lines"></i> Text / Message / URL
+          </button>
+          <button class="c-tab-btn" data-input-mode="image">
+            <i class="fa-solid fa-camera"></i> Screenshot / Image (Multimodal)
+          </button>
+        </div>
+
+        <!-- Mode A: Text Input Area -->
+        <div id="textInputContainer" class="input-mode-panel active">
+          <div class="textarea-wrapper">
+            <textarea id="suspiciousInput" 
+              placeholder="Paste suspicious text here...&#10;&#10;Examples:&#10;• Urgent bank KYC or electricity bill SMS&#10;• Fake Netflix, Amazon, or Google password reset email&#10;• Strange link (e.g. http://sbi-verify.top/login)&#10;• Suspicious SSH or server authorization log" 
+              rows="6"></textarea>
+            
+            <div class="textarea-footer">
+              <div class="counter-stats">
+                <span id="charCount">0 characters</span>
+                <span class="separator">•</span>
+                <span id="wordCount">0 words</span>
+              </div>
+              <button class="text-action-btn" id="clearInputBtn" title="Clear text">
+                <i class="fa-solid fa-trash-can"></i> Clear
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode B: Image Screenshot Upload Area -->
+        <div id="imageInputContainer" class="input-mode-panel">
+          <div class="drop-zone" id="imageDropZone">
+            <input type="file" id="screenshotFileInput" accept="image/png, image/jpeg, image/webp" hidden>
+            <div class="drop-zone-idle" id="dropZoneIdle">
+              <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+              <p class="drop-primary">Drag &amp; drop an email or SMS screenshot here, or <span class="highlight-link">Browse files</span></p>
+              <p class="drop-hint">Supports PNG, JPG, WEBP (Max 16MB) • Processed with Gemini Vision</p>
+            </div>
+            <div class="drop-zone-preview hidden" id="dropZonePreview">
+              <img id="previewImage" src="" alt="Screenshot Preview">
+              <div class="preview-meta">
+                <span id="previewFilename">screenshot.png</span>
+                <button class="btn-danger-outline" id="removeImageBtn">
+                  <i class="fa-solid fa-xmark"></i> Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="image-text-companion">
+            <input type="text" id="imageCompanionText" placeholder="Optional: Add context or sender details (e.g., 'Received from unknown number +91-987...')">
+          </div>
+        </div>
+
+        <!-- Live PII Privacy Shield Notification -->
+        <div class="pii-banner hidden" id="piiWarningBanner">
+          <div class="pii-icon">
+            <i class="fa-solid fa-shield-virus"></i>
+          </div>
+          <div class="pii-text">
+            <strong>Privacy Guard Alert:</strong> <span id="piiDetectedMessage">Sensitive information detected in your text.</span>
+            <p class="pii-sub">Real passwords and OTPs should never be sent over web forms. Our privacy engine can auto-redact them for your safety.</p>
+          </div>
+          <div class="pii-toggle">
+            <label class="switch">
+              <input type="checkbox" id="autoRedactToggle" checked>
+              <span class="slider round"></span>
+            </label>
+            <span class="switch-label">Auto-Redact PII</span>
+          </div>
+        </div>
+
+        <!-- Submit & Control Bar -->
+        <div class="console-actions">
+          <div class="privacy-assurance">
+            <i class="fa-solid fa-lock"></i> Zero Data Logging • In-Memory Processing
+          </div>
+
+          <button id="analyzeBtn" class="cyber-btn primary-btn glow-btn">
+            <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Threat with Gemini</span>
+            <span class="btn-loader hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Neural Scanning...</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Analysis Results Section (Populated on Analyze) -->
+      <div id="resultsSection" class="results-section hidden">
+        
+        <!-- Result Header: Risk Score & Threat Taxonomy -->
+        <div class="result-header-card glass-panel" id="riskCard">
+          <div class="risk-badge-block">
+            <div class="risk-label">THREAT ASSESSMENT</div>
+            <div class="risk-badge" id="riskBadge">CRITICAL THREAT</div>
+            <div class="threat-taxonomy" id="threatCategory">Social Engineering &amp; Credential Theft</div>
+          </div>
+
+          <div class="risk-metric-block">
+            <div class="gauge-circle">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path class="circle" id="scoreCirclePath"
+                  stroke-dasharray="85, 100"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <text x="18" y="20.35" class="percentage" id="riskScoreValue">85%</text>
+              </svg>
+            </div>
+            <div class="metric-info">
+              <span class="metric-title">Risk Severity Index</span>
+              <span class="metric-conf" id="confidenceValue">Confidence: 94%</span>
+            </div>
+          </div>
+
+          <div class="engine-meta-block">
+            <div class="meta-item">
+              <span class="meta-label">Intelligence Source:</span>
+              <span class="meta-val" id="engineUsedLabel">Google Gemini 2.5 Flash</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Privacy Sanitization:</span>
+              <span class="meta-val highlight-green" id="privacyStatusLabel">Active &amp; Masked</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Analyzed at:</span>
+              <span class="meta-val" id="analyzedTimestamp">Just now</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dual Language Summary Card -->
+        <div class="summary-card glass-panel">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-comment-dots"></i> Threat Summary &amp; Plain-Language Breakdown
+            </div>
+            <div class="summary-lang-toggle">
+              <button class="toggle-pill active" id="btnShowEnSummary">English</button>
+              <button class="toggle-pill" id="btnShowHiSummary">Hinglish 🇮🇳</button>
+            </div>
+          </div>
+          <div class="summary-content">
+            <div id="englishSummaryBlock" class="summary-text active">
+              Loading summary...
+            </div>
+            <div id="hinglishSummaryBlock" class="summary-text">
+              Loading Hinglish summary...
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning Signs & Red Flags Grid -->
+        <div class="findings-card glass-panel">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-triangle-exclamation"></i> Detected Warning Signs &amp; Deception Tactics
+            </div>
+            <span class="badge-count" id="warningCountBadge">0 Red Flags</span>
+          </div>
+          <div class="warning-signs-grid" id="warningSignsList">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- URL Forensic Breakdown (Appears if URLs were detected) -->
+        <div class="url-analysis-card glass-panel hidden" id="urlAnalysisCard">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-link"></i> Suspicious URL &amp; Domain Forensics
+            </div>
+            <span class="pill-tag warning">AI Heuristic Inspection</span>
+          </div>
+          <div class="url-findings-body" id="urlFindingsBody">
+            <!-- Injected dynamically -->
+          </div>
+          <div class="url-disclaimer-note">
+            <i class="fa-solid fa-circle-info"></i> <strong>Security Advisory:</strong> AI examines textual red flags (lookalike domains, IP hostnames, deceptive subdomains). Never treat heuristic analysis as a 100% guarantee that an unknown link is clean or safe.
+          </div>
+        </div>
+
+        <!-- Recommended Action Checklist -->
+        <div class="actions-card glass-panel">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-list-check"></i> Recommended Next Steps &amp; Defensive Playbook
+            </div>
+          </div>
+          <div class="actions-list" id="recommendedActionsList">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Cyber Tutor Pro-Tip Card -->
+        <div class="tutor-tip-card glass-panel">
+          <div class="tutor-icon">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div class="tutor-body">
+            <div class="tutor-title">
+              <span>CYBER TUTOR LESSON:</span> <strong id="tutorTopicTitle">Zero Trust Verification</strong>
+            </div>
+            <p id="tutorTakeawayEn" class="tutor-text">Verify out-of-band before taking any action.</p>
+            <p id="tutorTakeawayHi" class="tutor-text-hi">Hinglish: Hamesha independent tarike se official website par verify karein.</p>
+          </div>
+        </div>
+
+        <!-- Embedded Learn-Mode Quiz Generator Card -->
+        <div class="quiz-embed-card glass-panel" id="embeddedQuizCard">
+          <div class="quiz-header">
+            <div class="quiz-title">
+              <i class="fa-solid fa-gamepad"></i> Learn Mode: Test Your Knowledge on This Threat
+            </div>
+            <span class="quiz-score-pill" id="quizScorePill">Score: 0 / 3</span>
+          </div>
+          <p class="quiz-desc">
+            Gemini dynamically created these 3 interactive questions based on the specific deception tactics in your message. Answer them to level up your cyber defense skills!
+          </p>
+          <div class="quiz-questions-container" id="quizQuestionsContainer">
+            <!-- Injected dynamically by quiz.js -->
+          </div>
+        </div>
+
+        <!-- Export & Share Toolbar -->
+        <div class="export-toolbar glass-panel">
+          <div class="toolbar-info">
+            <i class="fa-solid fa-file-export"></i> Share or document this analysis for peer awareness &amp; Devpost portfolio
+          </div>
+          <div class="toolbar-buttons">
+            <button class="cyber-btn secondary-btn" id="btnCopyReport">
+              <i class="fa-regular fa-copy"></i> Copy Markdown Report
+            </button>
+            <button class="cyber-btn secondary-btn" id="btnDownloadJson">
+              <i class="fa-solid fa-download"></i> Export JSON
+            </button>
+            <button class="cyber-btn secondary-btn" id="btnPrintReport">
+              <i class="fa-solid fa-print"></i> Print / PDF
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Tab 2: Cyber Awareness Tutor -->
+    <section id="tab-tutor" class="tab-pane">
+      <div class="tutor-header">
+        <h2 class="section-title">Cyber Awareness <span class="neon-text">Curriculum</span></h2>
+        <p class="section-subtitle">Core principles explained in simple English and Hinglish to protect yourself, your family, and your peers.</p>
+      </div>
+
+      <div class="tutor-grid">
+        <!-- Module 1 -->
+        <div class="tutor-module glass-panel">
+          <div class="module-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+          <h3>1. Phishing &amp; Smishing Anatomy</h3>
+          <p class="en-desc">Attackers exploit 4 emotional triggers: Fear, Urgency, Greed, and Authority. If a message urges you to act within minutes or lose access, pause immediately.</p>
+          <div class="hi-box">
+            <strong>Hinglish Guide:</strong> "Jab bhi koi email ya SMS kahe ki 'Aapka account 24 ghante mein band ho jayega', toh 99% yeh scam hota hai. Real banks kabhi achanak block karne ki dhamki nahi dete."
+          </div>
+          <ul class="key-checks">
+            <li><i class="fa-solid fa-check"></i> Always inspect full sender email address, not just display name</li>
+            <li><i class="fa-solid fa-check"></i> Beware of greetings like "Dear Customer" instead of your actual name</li>
+          </ul>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="tutor-module glass-panel">
+          <div class="module-icon"><i class="fa-solid fa-key"></i></div>
+          <h3>2. The Golden Rule of OTP &amp; 2FA</h3>
+          <p class="en-desc">An OTP (One-Time Password) is a secondary digital key specifically designed for your eyes only. Legitimate banks and portals will NEVER ask for it.</p>
+          <div class="hi-box">
+            <strong>Hinglish Guide:</strong> "OTP ka matlab hai One Time Password. Yeh aapki tijori ki chabhi hai. Bank manager, police, ya customer care bolkar phone karne wale ko OTP dena matlab apne paise unhe saumpna."
+          </div>
+          <ul class="key-checks">
+            <li><i class="fa-solid fa-check"></i> Read the SMS carefully: it states what the OTP is authorizing (e.g. 'Debiting ₹10,000')</li>
+            <li><i class="fa-solid fa-check"></i> Enable Authenticator Apps (TOTP) instead of SMS OTP where possible</li>
+          </ul>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="tutor-module glass-panel">
+          <div class="module-icon"><i class="fa-solid fa-globe"></i></div>
+          <h3>3. Spotting Lookalike URLs (Typosquatting)</h3>
+          <p class="en-desc">Scammers register domain names that look nearly identical to popular services by substituting characters (0 for O, 1 for l) or using deceptive subdomains.</p>
+          <div class="hi-box">
+            <strong>Hinglish Guide:</strong> "Hamesha domain ka aakhri hissa dekhein. Agar link hai `netflix.account-billing.xyz`, toh main domain `account-billing.xyz` hai, Netflix nahi!"
+          </div>
+          <ul class="key-checks">
+            <li><i class="fa-solid fa-check"></i> Check domain root before the first slash: e.g. `google.com` vs `google-login.top`</li>
+            <li><i class="fa-solid fa-check"></i> Bookmark important banking and portal sites instead of searching on Google</li>
+          </ul>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="tutor-module glass-panel">
+          <div class="module-icon"><i class="fa-solid fa-user-ninja"></i></div>
+          <h3>4. Social Engineering &amp; Fake Authority</h3>
+          <p class="en-desc">Cybercriminals impersonate police, customs officials (Digital Arrest), or IT support. They isolate victims and demand confidentiality.</p>
+          <div class="hi-box">
+            <strong>Hinglish Guide:</strong> "'Digital Arrest' naam ka koi kanuni procedure nahi hota! Police ya CBI kabhi video call par paise transfer karke case band karne ko nahi bolti."
+          </div>
+          <ul class="key-checks">
+            <li><i class="fa-solid fa-check"></i> Consult family or call 1930 (National Cyber Crime Helpline in India)</li>
+            <li><i class="fa-solid fa-check"></i> Never install remote desktop tools (AnyDesk, TeamViewer) on stranger's advice</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Learn Mode Quiz Center -->
+    <section id="tab-quiz" class="tab-pane">
+      <div class="tutor-header">
+        <h2 class="section-title">Cyber Defense <span class="neon-text">Challenge</span></h2>
+        <p class="section-subtitle">Test your instincts against real-world phishing and fraud scenarios.</p>
+      </div>
+
+      <div class="quiz-stand-container glass-panel" id="standAloneQuizContainer">
+        <div class="stand-quiz-hero">
+          <div class="stand-quiz-meta">
+            <span class="quiz-chip">Interactive Knowledge Check</span>
+            <h3>Can You Spot the Deception?</h3>
+            <p>Answer these practical threat simulation questions to earn your CyberShield Certificate badge.</p>
+          </div>
+          <div class="stand-quiz-counter">
+            <span class="counter-number" id="standQuizScoreDisplay">0 / 5</span>
+            <span class="counter-label">Score</span>
+          </div>
+        </div>
+
+        <div id="standAloneQuestionsList" class="stand-quiz-list">
+          <!-- Populated by quiz.js -->
+        </div>
+
+        <div class="stand-quiz-footer">
+          <button class="cyber-btn primary-btn" id="btnResetStandQuiz">
+            <i class="fa-solid fa-arrow-rotate-left"></i> Reset Quiz
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Privacy & Architecture -->
+    <section id="tab-privacy" class="tab-pane">
+      <div class="tutor-header">
+        <h2 class="section-title">Privacy-First <span class="neon-text">Architecture</span></h2>
+        <p class="section-subtitle">How CyberShield AI protects user privacy while evaluating threats with Gemini.</p>
+      </div>
+
+      <div class="privacy-grid">
+        <div class="privacy-card glass-panel">
+          <div class="p-icon"><i class="fa-solid fa-user-secret"></i></div>
+          <h3>Zero Persistent Storage</h3>
+          <p>CyberShield AI operates completely statelessly. User messages, screenshots, and logs are analyzed in ephemeral RAM and never written to a disk database or telemetry store.</p>
+        </div>
+
+        <div class="privacy-card glass-panel">
+          <div class="p-icon"><i class="fa-solid fa-mask"></i></div>
+          <h3>Active PII Masking Engine</h3>
+          <p>Before text reaches Google Gemini, our built-in regex sanitization scans and redacts OTPs, credit card numbers, passwords, and phone numbers with placeholders like <code>[REDACTED_OTP]</code>.</p>
+        </div>
+
+        <div class="privacy-card glass-panel">
+          <div class="p-icon"><i class="fa-solid fa-microchip"></i></div>
+          <h3>Hybrid Intelligence Architecture</h3>
+          <p>We combine deterministic rule-based heuristics (raw IP addresses, high-risk TLDs, keyword triggers) with Gemini 2.5 Flash's deep semantic reasoning. If offline, the local heuristic engine takes over seamlessly.</p>
+        </div>
+
+        <div class="privacy-card glass-panel">
+          <div class="p-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h3>Ethical AI Limitations Disclaimer</h3>
+          <p>AI heuristics are assistive tools for awareness, not infallible enterprise firewalls. Never open an unverified attachment or send funds based solely on an automated heuristic score.</p>
+        </div>
+      </div>
+
+      <!-- Architecture Comparison Table for Devpost / Ambassador Showcase -->
+      <div class="arch-table-card glass-panel">
+        <h3>Architecture Responsibility Matrix (AI vs. Local Code)</h3>
+        <p class="arch-desc">Demonstrating clear separation between deterministic local code checks and Gemini AI reasoning:</p>
+        
+        <table class="arch-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Handled By</th>
+              <th>Implementation Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PII Detection &amp; Redaction</strong></td>
+              <td><span class="tag-local">Local Python Code</span></td>
+              <td>Regex token scanner for OTP, Credit Card, Passwords</td>
+            </tr>
+            <tr>
+              <td><strong>URL Syntactic Checks</strong></td>
+              <td><span class="tag-local">Local Python Code</span></td>
+              <td>IP hostname detection, high-risk TLD registry match</td>
+            </tr>
+            <tr>
+              <td><strong>Contextual Intent &amp; Urgency</strong></td>
+              <td><span class="tag-gemini">Google Gemini AI</span></td>
+              <td>Natural-language semantic intent &amp; manipulation analysis</td>
+            </tr>
+            <tr>
+              <td><strong>Multimodal Screenshot Analysis</strong></td>
+              <td><span class="tag-gemini">Google Gemini AI</span></td>
+              <td>Gemini 2.5 Flash Vision reading email UI and deceptive styling</td>
+            </tr>
+            <tr>
+              <td><strong>Hinglish Explanations</strong></td>
+              <td><span class="tag-gemini">Google Gemini AI</span></td>
+              <td>Culturally tuned beginner explanations for Indian students</td>
+            </tr>
+            <tr>
+              <td><strong>Dynamic Quiz Generation</strong></td>
+              <td><span class="tag-gemini">Google Gemini AI</span></td>
+              <td>Real-time multiple-choice question synthesis from threats</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal (API Key Configuration) -->
+  <div class="modal-backdrop hidden" id="settingsModal">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-gear"></i> Gemini AI Configuration</h3>
+        <button class="modal-close" id="closeSettingsBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          CyberShield AI works out of the box with built-in heuristic security analysis. To unlock live deep neural reasoning with Gemini, enter your Google AI Studio API key below.
+        </p>
+
+        <div class="form-group">
+          <label for="geminiApiKeyInput">Google Gemini API Key:</label>
+          <div class="input-with-action">
+            <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy...">
+            <button class="toggle-pass-btn" id="toggleKeyVisibilityBtn" type="button" title="Show/Hide">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <span class="input-hint">
+            Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square"></i></a>. Key is kept in your current session only.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="geminiModelSelect">Active Gemini Model:</label>
+          <select id="geminiModelSelect">
+            <option value="gemini-2.5-flash" selected>gemini-2.5-flash (Fast, Multimodal, Recommended)</option>
+            <option value="gemini-1.5-flash">gemini-1.5-flash (Standard)</option>
+            <option value="gemini-2.0-flash">gemini-2.0-flash (Next-Gen)</option>
+          </select>
+        </div>
+
+        <div id="settingsAlertBox" class="settings-alert hidden"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cyber-btn secondary-btn" id="clearApiKeyBtn">
+          Clear Key
+        </button>
+        <button class="cyber-btn primary-btn" id="saveApiKeyBtn">
+          Save Configuration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="cyber-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <span class="footer-brand">CyberShield AI</span>
+        <span class="footer-copy">Built for Cybersecurity Awareness &amp; Education with Google Gemini</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://aistudio.google.com/" target="_blank" rel="noopener"><i class="fa-brands fa-google"></i> Google AI Studio</a>
+        <a href="https://devpost.com" target="_blank" rel="noopener"><i class="fa-solid fa-trophy"></i> Devpost</a>
+        <a href="https://github.com" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/js/quiz.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

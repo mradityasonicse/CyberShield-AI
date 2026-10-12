@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#00f0ff" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Shield Outline -->
+  <path d="M50 8 L85 24 V52 C85 72 50 92 50 92 C50 92 15 72 15 52 V24 L50 8 Z" 
+        stroke="url(#shieldGrad)" stroke-width="3" fill="#0c162d" fill-opacity="0.85" filter="url(#glow)"/>
+
+  <!-- Circuit Network / Cyber Lines -->
+  <path d="M50 20 V42 M50 42 L32 54 M50 42 L68 54 M32 54 V68 M68 54 V68" 
+        stroke="#00f0ff" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 3" opacity="0.75" />
+  
+  <circle cx="50" cy="20" r="3" fill="#00f0ff" />
+  <circle cx="32" cy="54" r="2.5" fill="#3b82f6" />
+  <circle cx="68" cy="54" r="2.5" fill="#3b82f6" />
+  <circle cx="32" cy="68" r="2.5" fill="#10b981" />
+  <circle cx="68" cy="68" r="2.5" fill="#10b981" />
+
+  <!-- Central Gemini / AI Sparkle Core -->
+  <path d="M50 36 C50 45 44 48 38 50 C44 52 50 55 50 64 C50 55 56 52 62 50 C56 48 50 45 50 36 Z" 
+        fill="url(#coreGrad)" filter="url(#glow)"/>
+</svg>
