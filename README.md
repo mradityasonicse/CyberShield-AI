@@ -5,6 +5,7 @@
 [![Google Gemini API](https://img.shields.io/badge/AI-Google%20Gemini%202.5%20Flash-00f0ff.svg)](https://aistudio.google.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Privacy First](https://img.shields.io/badge/Privacy-Zero%20Data%20Logging-emerald.svg)](#privacy-first-design)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mradityasonicse/CyberShield-AI)
 
 > **CyberShield AI** is an intelligent cybersecurity tutor and threat analyzer. Paste suspicious emails, SMS texts, lookalike URLs, or security logs — or upload screenshots — and CyberShield AI uses **Google Gemini 2.5 Flash** to break down deception tactics, highlight warning signs in plain English and beginner-friendly **Hinglish**, and generate an interactive 3-question learning quiz for every analyzed threat.
 
